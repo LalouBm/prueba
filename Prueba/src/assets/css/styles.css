@@ -1,1 +1,35 @@
-@import "tailwindcss";
+:root {
+  --fuenteContenido: "Roboto Slab", serif;
+  --fuenteTitulos: "Manrope", sans-serif;
+  --colorFondo: #EDF2F4;
+  --colorHeader: #293241;
+  --colorBorder: #98C1D9;
+}
+
+.card {
+  padding: 2rem;
+  border-radius: 5%;
+  transition: all 500ms ease;
+}
+
+.card:hover {
+  box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+  transform: translateY(-2%);
+  background-color: var(--colorFondo);
+}
+
+.card-text {
+  font-family: var(--fuenteContenido);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.card-title{
+    font-family: var(--fuenteTitulos);
+    font-weight: 700;
+}
+.card-subtitle {
+    font-family: var(--fuenteTitulos);
+    font-weight: 400;
+}
