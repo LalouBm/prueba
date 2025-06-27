@@ -7,7 +7,7 @@
 }
 
 .card {
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 5%;
   transition: all 500ms ease;
 }
@@ -32,4 +32,10 @@
 .card-subtitle {
     font-family: var(--fuenteTitulos);
     font-weight: 400;
+}
+
+.gridUsuarios {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
 }
