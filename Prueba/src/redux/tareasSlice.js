@@ -1,12 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
+const initialState = {
+  tareas: [],
+  mostrarTareas: false,
+};
 
 const tareasSlice = createSlice({
   name: 'tareas',
-  initialState: [],
+  initialState,
   reducers: {
-    setTareas: (state, action) => action.payload
+    setTareas: (state, action) => {
+      state.tareas = action.payload;
+    },
+    setMostrarTareas: (state, action) => {
+      state.mostrarTareas = action.payload;
+    },
   }
 });
 
-export const { setTareas } = tareasSlice.actions;
+export const { setTareas, setMostrarTareas } = tareasSlice.actions;
 export default tareasSlice.reducer;

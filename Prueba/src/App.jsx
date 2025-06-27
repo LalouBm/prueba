@@ -4,12 +4,15 @@ import { setUsuarios } from './redux/usuariosSlice';
 import { useEffect } from 'react'
 import UsuarioCard from './componentes/UsuarioCard.jsx'
 import PostCard from './componentes/PostCard.jsx'
+import TareaCard from './componentes/TareaCard.jsx'
 
 function App() {
   const dispatch = useDispatch();
   const usuarios = useSelector(state => state.usuarios.usuarios);
-  const posts = useSelector(state => state.posts);
-  const tareas = useSelector(state => state.tareas);
+  const posts = useSelector(state => state.posts.posts);
+  const mostrarPosts = useSelector(state => state.posts.mostrarPosts);
+  const tareas = useSelector(state => state.tareas.tareas);
+  const mostrarTareas = useSelector(state => state.tareas.mostrarTareas);
   
   // const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
@@ -42,13 +45,25 @@ function App() {
           </div>
         </div>
         <div className='col-6'>
-          {posts.length!==0 && (
+          {mostrarPosts && (
             <>
               <h1 className='text-center'>Publicaciones</h1>
               <div className='d-flex flex-column'>
                 {posts.map(post => {
                   return (
                     <PostCard key={post.id} post={post} />
+                  );
+                })}
+              </div>
+            </>
+          )}
+          {mostrarTareas && (
+            <>
+              <h1 className='text-center'>Tareas</h1>
+              <div className='d-flex flex-column'>
+                {tareas.map(tarea => {
+                  return (
+                    <TareaCard key={tarea.id} tarea={tarea} />
                   );
                 })}
               </div>

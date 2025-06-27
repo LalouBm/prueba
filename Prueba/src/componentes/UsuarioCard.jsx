@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setPosts } from '../redux/postsSlice';
-import { setTareas } from '../redux/tareasSlice';
+import { setMostrarPosts, setPosts } from '../redux/postsSlice';
+import { setTareas, setMostrarTareas } from '../redux/tareasSlice';
 import { setIdUsuarioSeleccionado } from '../redux/usuariosSlice';
 
 
@@ -11,7 +11,6 @@ function UsuarioCard({usuario}) {
    let marcarCard = false;
    if(idUsuarioSeleccionado && idUsuarioSeleccionado==id){
       marcarCard = true;
-      console.log(idUsuarioSeleccionado);
    }
    const dispatch = useDispatch();
 
@@ -20,15 +19,18 @@ function UsuarioCard({usuario}) {
         .then((response) => response.json())
         .then((data) => {
           let arregloTareas = data.map(tarea => {
-            console.log(tarea);
               return {
                 id: tarea.id,
                 titulo: tarea.title,
-                completa: tarea.completed
+                completada: tarea.completed
               };
           });
+          arregloTareas = arregloTareas.sort((a, b) => b.id - a.id);
           dispatch(setTareas(arregloTareas));
           dispatch(setIdUsuarioSeleccionado(idUsuario));
+          dispatch(setMostrarPosts(false));
+          dispatch(setMostrarTareas(true));
+          
         });
    }
 
@@ -48,6 +50,8 @@ function UsuarioCard({usuario}) {
       );
       dispatch(setPosts(arregloPosts));
       dispatch(setIdUsuarioSeleccionado(idUsuario));
+      dispatch(setMostrarTareas(false));
+      dispatch(setMostrarPosts(true));
 
    }
 
