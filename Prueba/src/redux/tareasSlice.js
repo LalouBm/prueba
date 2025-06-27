@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   tareas: [],
   mostrarTareas: false,
+  mostrarFormulario: false,
 };
 
 const tareasSlice = createSlice({
@@ -14,8 +15,11 @@ const tareasSlice = createSlice({
     setMostrarTareas: (state, action) => {
       state.mostrarTareas = action.payload;
     },
+    setMostrarFormulario: (state, action) => {
+      state.mostrarFormulario = action.payload;
+    },
   }
 });
 
-export const { setTareas, setMostrarTareas } = tareasSlice.actions;
+export const { setTareas, setMostrarTareas, setMostrarFormulario } = tareasSlice.actions;
 export default tareasSlice.reducer;

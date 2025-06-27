@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setMostrarPosts, setPosts } from '../redux/postsSlice';
-import { setTareas, setMostrarTareas } from '../redux/tareasSlice';
+import { setTareas, setMostrarTareas, setMostrarFormulario } from '../redux/tareasSlice';
 import { setIdUsuarioSeleccionado } from '../redux/usuariosSlice';
+import Swal from 'sweetalert2';
 
 
 function UsuarioCard({usuario}) {
@@ -30,11 +31,20 @@ function UsuarioCard({usuario}) {
           dispatch(setIdUsuarioSeleccionado(idUsuario));
           dispatch(setMostrarPosts(false));
           dispatch(setMostrarTareas(true));
+          dispatch(setMostrarFormulario(false));
           
+        }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: `${error.message}`,
+                text: "Ocurrió un error al cargar las tareas",
+            });
+            console.log(error);
         });
    }
 
    async function obtenerPost(idUsuario){
+    try { 
       const response = await fetch(`https://jsonplaceholder.typicode.com/users/${idUsuario}/posts`);
       const data = await response.json();
       let arregloPosts = await Promise.all(
@@ -52,20 +62,39 @@ function UsuarioCard({usuario}) {
       dispatch(setIdUsuarioSeleccionado(idUsuario));
       dispatch(setMostrarTareas(false));
       dispatch(setMostrarPosts(true));
+      dispatch(setMostrarFormulario(false));
+
+    } catch (error) { 
+      Swal.fire({
+          icon: "error",
+          title: `${error.message}`,
+          text: "Ocurrió un error al cargar los posts",
+      });
+      console.log(error);
+    }
 
    }
 
    async function obtenerComentarios(idPost){
+      try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${idPost}/comments`);
+        const data = await response.json();
+  
+        return data.map(comentario => ({
+          id: comentario.id,
+          email: comentario.email,
+          titulo: comentario.name,
+          contenido: comentario.body
+        }));
 
-      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${idPost}/comments`);
-      const data = await response.json();
-
-      return data.map(comentario => ({
-        id: comentario.id,
-        email: comentario.email,
-        titulo: comentario.name,
-        contenido: comentario.body
-      }));
+      } catch(error) {
+        Swal.fire({
+            icon: "error",
+            title: `${error.message}`,
+            text: "Ocurrió un error al cargar los comentarios",
+        });
+        console.log(error);
+      }
    }
 
   return (

@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsuarios } from './redux/usuariosSlice';
-import { useEffect } from 'react'
-import UsuarioCard from './componentes/UsuarioCard.jsx'
-import PostCard from './componentes/PostCard.jsx'
-import TareaCard from './componentes/TareaCard.jsx'
+import { setMostrarFormulario } from './redux/tareasSlice';
+import UsuarioCard from './componentes/UsuarioCard.jsx';
+import PostCard from './componentes/PostCard.jsx';
+import TareaCard from './componentes/TareaCard.jsx';
+import Formulario from './componentes/Formulario.jsx';
+import Swal from 'sweetalert2';
 
 function App() {
   const dispatch = useDispatch();
@@ -13,8 +15,8 @@ function App() {
   const mostrarPosts = useSelector(state => state.posts.mostrarPosts);
   const tareas = useSelector(state => state.tareas.tareas);
   const mostrarTareas = useSelector(state => state.tareas.mostrarTareas);
+  const mostrarFormulario = useSelector(state => state.tareas.mostrarFormulario);
   
-  // const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
       consumirAPI();
   }, []);
@@ -32,8 +34,25 @@ function App() {
                     telefono: usuario.phone
                   };
               });
+              
               dispatch(setUsuarios(arregloUsuarios));
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: `${error.message}`,
+                    text: "Ocurrió un error al cargar los usuarios",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: false
+
+                });
+                console.log(error);
             });
+  }
+
+  function abrirFormulario(){
+      dispatch(setMostrarFormulario(true));
   }
 
   return (
@@ -60,6 +79,20 @@ function App() {
           {mostrarTareas && (
             <>
               <h1 className='text-center'>Tareas</h1>
+              {
+                mostrarFormulario ? (
+                  <>
+                    <Formulario />
+                  </>
+                ) : (
+                  <>
+                    <div className='d-flex justify-content-end'>
+                      <button className='mb-3 btn btn-outline-info btn-lg' onClick={() => abrirFormulario()}>Nueva Tarea</button>
+                    </div>
+                  </>
+                )
+              }
+              
               <div className='d-flex flex-column'>
                 {tareas.map(tarea => {
                   return (
