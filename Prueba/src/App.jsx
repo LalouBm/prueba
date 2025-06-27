@@ -7,8 +7,10 @@ import PostCard from './componentes/PostCard.jsx'
 
 function App() {
   const dispatch = useDispatch();
-  const usuarios = useSelector(state => state.usuarios);
+  const usuarios = useSelector(state => state.usuarios.usuarios);
   const posts = useSelector(state => state.posts);
+  const tareas = useSelector(state => state.tareas);
+  
   // const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
       consumirAPI();
@@ -18,13 +20,13 @@ function App() {
     fetch('https://jsonplaceholder.typicode.com/users')
             .then((response) => response.json())
             .then((data) => {
-              let arregloUsuarios = data.map(dato => {
+              let arregloUsuarios = data.map(usuario => {
                   return {
-                    id: dato.id,
-                    nombre: dato.name,
-                    email: dato.email,
-                    username: dato.username,
-                    telefono: dato.phone
+                    id: usuario.id,
+                    nombre: usuario.name,
+                    email: usuario.email,
+                    username: usuario.username,
+                    telefono: usuario.phone
                   };
               });
               dispatch(setUsuarios(arregloUsuarios));
