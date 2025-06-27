@@ -36,11 +36,7 @@ function App() {
       <div className='m-5 row'>
         <div className='col-6'>
           <div className='gridUsuarios' >
-            {usuarios.map(usuario => {
-              return (
-                  <UsuarioCard key={usuario.id} usuario={usuario} />
-              );
-            })}
+            {usuarios.map(usuario => <UsuarioCard key={usuario.id} usuario={usuario} />)}
           </div>
         </div>
         <div className='col-6'>

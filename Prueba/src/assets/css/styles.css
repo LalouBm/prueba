@@ -7,7 +7,6 @@
 }
 
 .card {
-  padding: 1rem;
   border-radius: 5%;
   transition: all 500ms ease;
 }
@@ -38,4 +37,13 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 2rem;
+}
+
+.card-width {
+    max-width: 18rem;
+}
+
+.card-footer,
+.card-footer:hover {
+    background-color: var(--colorFondo) !important;
 }
